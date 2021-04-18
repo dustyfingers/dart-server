@@ -1,15 +1,12 @@
 import 'dart:io';
 import 'dart:convert';
 
-import 'controllers/todo_controller.dart';
 import 'config/db.dart';
 
 Future main() async {
   try {
     var server = await HttpServer.bind(InternetAddress.loopbackIPv4, 5000);
     var db = await connectToDB();
-
-    print(db);
 
     print('Server started on port ${server.port}');
 
@@ -28,16 +25,57 @@ Future main() async {
             await req.response.close();
           }
           break;
-        case '/todo':
-          // fetch, create, edit and delete todo routes here
+        case '/todos':
+          // fetch all, create, edit and delete todo routes here
+          switch (req.method) {
+            // TODO: fetch all
+            case 'GET':
+              break;
+            // TODO: create post
+            case 'POST':
+              // TODO: pull this functionality out into the todo_controller
+              try {
+                // parse json from incoming request
+                String reqBody = await utf8.decoder.bind(req).join();
+                Map reqBodyMap = await jsonDecode(reqBody);
+                String description = reqBodyMap['description'];
+                bool completed = reqBodyMap['completed'];
+
+                await db.query(
+                    '''INSERT INTO Todos (description, completed) VALUES ('$description','$completed')''');
+
+                print('this happens');
+
+                var res = jsonEncode({'message': 'Todo created successfully'});
+                req.response.write(res);
+                await req.response.close();
+              } catch (error) {
+                var res = jsonEncode({
+                  'error': error,
+                  'message': 'There was an error while creating a todo.'
+                });
+                req.response.write(res);
+                await req.response.close();
+              }
+              break;
+            // TODO: edit post
+            case 'PUT':
+              break;
+            // TODO: delete post
+            case 'DELETE':
+              break;
+            default:
+              req.response.write('Invalid request.');
+              await req.response.close();
+          }
           break;
         default:
-          req.response.write('');
+          req.response.write('Invalid request.');
           await req.response.close();
       }
     }
   } catch (error) {
     print(error);
-    print('couldn\'t start server.');
+    print('Error with server. Server crashed.');
   }
 }
