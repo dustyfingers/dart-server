@@ -9,4 +9,5 @@ Future<PostgreSQLConnection> connectToDB() async {
     password: 'testpass',
   );
   await conn.open();
+  return conn;
 }

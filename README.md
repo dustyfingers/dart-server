@@ -17,7 +17,8 @@ docker-compose up -d
 
 ## Visit Adminer ui in the browser
 
-Visit [http://localhost:8082] and log in with username `testadmin` and password `testpass` and make sure you have PostgreSQL selected under the `system` tab. Create the `todoapp-db` database in the adminer panel.
+Visit [http://localhost:8082] and log in with username `testadmin` and password `testpass` and make sure you have PostgreSQL selected under the `system` tab.
+Create the `todoapp-db` database in the adminer panel.
 
 ## Run the project
 
