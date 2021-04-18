@@ -1,8 +1,12 @@
 import 'package:postgres/postgres.dart';
 
 Future<PostgreSQLConnection> connectToDB() async {
-  var connection = PostgreSQLConnection("localhost", 5432, "todoapp-db",
-      username: "testadmin", password: "testpass");
-  await connection.open();
-  return connection;
+  final conn = PostgreSQLConnection(
+    'localhost',
+    5435,
+    'todoapp-db',
+    username: 'postgres',
+    password: 'testpass',
+  );
+  await conn.open();
 }
