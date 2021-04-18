@@ -8,10 +8,6 @@ Future main() async {
 
   await for (HttpRequest request in server) {
     request.response.write('Hello World!!');
-    print(request.uri);
-
-    String content = await utf8.decoder.bind(request).join();
-    print(content);
     await request.response.close();
   }
 }
