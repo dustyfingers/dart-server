@@ -7,7 +7,10 @@ Future main() async {
   print('Server started on port ${server.port}');
 
   await for (HttpRequest request in server) {
-    request.response.write('Hello World!!');
+    String content = await utf8.decoder.bind(request).join();
+    var data = jsonDecode(content) as Map;
+    print(content);
+    print(data);
     await request.response.close();
   }
 }
